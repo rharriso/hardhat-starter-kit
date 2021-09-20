@@ -27,7 +27,9 @@ const POLYGON_MAINNET_RPC_URL = process.env.POLYGON_MAINNET_RPC_URL || "https://
 const MNEMONIC = process.env.MNEMONIC || "your mnemonic"
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "Your etherscan API key"
 // optional
-const PRIVATE_KEY = process.env.PRIVATE_KEY || "your private key"
+const KOVAN_PRIVATE_KEY = process.env.MNEMONIC_RINKEBY_PRIVATE_KEY;
+const RINKEBY_PRIVATE_KEY = process.env.MNEMONIC_RINKEBY_PRIVATE_KEY;
+const MUMBAI_PRIVATE_KEY = process.env.MNEMONIC_RINKEBY_PRIVATE_KEY;
 
 module.exports = {
     defaultNetwork: "hardhat",
@@ -42,42 +44,34 @@ module.exports = {
         },
         kovan: {
             url: KOVAN_RPC_URL,
-            // accounts: [PRIVATE_KEY],
-            accounts: {
-                mnemonic: MNEMONIC,
-            },
+            accounts: [KOVAN_PRIVATE_KEY],
+
             saveDeployments: true,
         },
         rinkeby: {
             url: RINKEBY_RPC_URL,
-            // accounts: [PRIVATE_KEY],
+            accounts: [RINKEBY_PRIVATE_KEY],
             accounts: {
                 mnemonic: MNEMONIC,
             },
             saveDeployments: true,
-        },
-        ganache: {
-            url: 'http://localhost:8545',
-            accounts: {
-                mnemonic: MNEMONIC,
-            }
         },
         mainnet: {
             url: MAINNET_RPC_URL,
             // accounts: [PRIVATE_KEY],
-            accounts: {
-                mnemonic: MNEMONIC,
-            },
+            // accounts: {
+            //     mnemonic: MNEMONIC,
+            // },
             saveDeployments: true,
         },
         mumbai: {
             url: MUMBAI_RPC_URL,
-            accounts: [PRIVATE_KEY],
+            accounts: [MUMBAI_PRIVATE_KEY],
             saveDeployments: true,
         },
         polygon: {
             url: POLYGON_MAINNET_RPC_URL,
-            accounts: [PRIVATE_KEY],
+            // accounts: [POLYGON_PRIVATE_KEY],
             saveDeployments: true,
         },
     },
