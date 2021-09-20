@@ -31,6 +31,31 @@ describe('GOT20VRF', async function () {
     await vrfCoordinatorMock.callBackWithRandomness(requestId, houseIndex, got20VRF.address)
     await sleep(2000);
     expect(await got20VRF.house(user1.address)).to.equal(expectedHouse)
+  });
+
+  it('house fails if user still rolling', async () => {
+    await linkToken.transfer(got20VRF.address, '2000000000000000000')
+    const transaction = await got20VRF.rollDice(user0.address);
+    await transaction.wait();
+
+    try {
+      await got20VRF.house(user0.address)
+      throw new Error('Shouldn\'t be here')
+    } catch (e) {
+      expect(e.message).to.contain("'Roll in progress'")
+      console.error(e.message);
+    }
+  })
+
+  it('house fails if user hasn\'t rolled', async () => {
+    await linkToken.transfer(got20VRF.address, '2000000000000000000')
+
+    try {
+      await got20VRF.house(user0.address)
+      throw new Error('Shouldn\'t be here')
+    } catch (e) {
+      expect(e.message).to.contain("'Dice not rolled'")
+    }
   })
 })
 

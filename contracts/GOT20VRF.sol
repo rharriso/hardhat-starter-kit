@@ -22,6 +22,7 @@ contract GOT20VRF is VRFConsumerBase, Ownable {
         bytes32 keyHash,
         uint256 fee
     ) public VRFConsumerBase(vrfCoordinator, link) {
+        console.log("GOT20VRF: Using the following Corrdinator: %s", vrfCoordinator);
         s_keyHash = keyHash;
         s_fee = fee;
     }
@@ -30,9 +31,6 @@ contract GOT20VRF is VRFConsumerBase, Ownable {
         internal
         override
     {
-        console.log("Received for request Id %s", uint256(requestId));
-        console.log("Received for address: %s", s_rollers[requestId]);
-        console.log("Received Randomness: %s", randomness);
         uint256 d20Value = (randomness % 20) + 1;
         s_results[s_rollers[requestId]] = d20Value;
         emit DiceLanded(requestId, d20Value);
@@ -51,9 +49,6 @@ contract GOT20VRF is VRFConsumerBase, Ownable {
 
         // async, request randomness and applie it later
         requestId = requestRandomness(s_keyHash, s_fee);
-
-        console.log("Rolling for %s", roller);
-        console.log("Request Id %s", uint256(requestId));
 
         s_rollers[requestId] = roller;
         // mark as (is rolling)
